@@ -1,0 +1,314 @@
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.WeightedMarkovGenerator = void 0;
+var generator_1 = require("./markov/generator");
+Object.defineProperty(exports, "WeightedMarkovGenerator", { enumerable: true, get: function () { return generator_1.WeightedMarkovGenerator; } });
+
+},{"./markov/generator":2}],2:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.WeightedMarkovGenerator = void 0;
+const seedDictionary_1 = require("./seedDictionary");
+class WeightedMarkovGenerator {
+    constructor(seedLength = 4) {
+        this.seedLength = seedLength;
+        this.seedDictionary = new seedDictionary_1.SeedDictionary(seedLength);
+    }
+    // Reset seed length, this forgets all seed text
+    setSeedLength(seedLength) {
+        this.seedLength = seedLength;
+        this.seedDictionary = new seedDictionary_1.SeedDictionary(this.seedLength);
+    }
+    seedText(text) {
+        this.seedDictionary.populateDictionary(text);
+    }
+    generateText(textLength, start = "", endsOn = "") {
+        if (endsOn.length > this.seedLength) {
+            throw new Error("endsOn length cannot exceed seed length");
+        }
+        if (endsOn != "" && !this.seedDictionary.hasSeed(endsOn)) {
+            throw new Error("endsOn are not in the seed files, cannot end on phrase provided");
+        }
+        if (start == "") {
+            start = this.seedDictionary.getRandomSeed();
+        }
+        let currLength = start.length;
+        let currText = start;
+        while (true) {
+            let csl = this.seedLength;
+            if (csl > currText.length) {
+                csl = currText.length;
+            }
+            let seedFound = false;
+            while (csl >= 1) {
+                let seed = currText.slice(-csl);
+                if (this.seedDictionary.hasSeed(seed)) {
+                    let val = this.seedDictionary.getValue(seed);
+                    currText += val;
+                    seedFound = true;
+                    break;
+                }
+                csl--;
+            }
+            if (!seedFound) {
+                // Unable to find seed, returning a truncated version.
+                return currText;
+            }
+            // Process endsOn
+            if (currText.length >= textLength) {
+                if (endsOn.length > 0) {
+                    if (currText.length >= 2 * textLength) {
+                        return currText;
+                    }
+                    if (endsOn != currText.slice(-endsOn.length)) {
+                        continue;
+                    }
+                }
+                return currText;
+            }
+        }
+    }
+}
+exports.WeightedMarkovGenerator = WeightedMarkovGenerator;
+
+},{"./seedDictionary":3}],3:[function(require,module,exports){
+"use strict";
+// Weighted markov seed dictionary
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SeedDictionary = void 0;
+class SeedBlob {
+    constructor() {
+        this.count = 0;
+        this.countMap = new Map();
+    }
+    addValue(val) {
+        this.count++;
+        if (this.countMap.has(val)) {
+            this.countMap.set(val, this.countMap.get(val) + 1);
+        }
+        else {
+            this.countMap.set(val, 1);
+        }
+    }
+    getWeightedValue() {
+        let rng = Math.random();
+        let currSum = 0;
+        for (const [val, num] of this.countMap) {
+            currSum += num;
+            if ((currSum / this.count) > rng) {
+                return val;
+            }
+        }
+    }
+}
+class SeedDictionary {
+    constructor(seedLength) {
+        // Seed length refers to max seed length.
+        this.seedLength = seedLength;
+        this.dict = new Map();
+    }
+    populateDictionary(text) {
+        // Populate dictionary from 1 to seed length
+        for (let csl = 1; csl <= this.seedLength; csl++) {
+            let idx = 0;
+            while (idx + csl < text.length) {
+                let currKey = text.slice(idx, idx + csl);
+                let currVal = text[idx + csl];
+                if (this.dict.has(currKey)) {
+                    let seedBlob = this.dict.get(currKey);
+                    seedBlob.addValue(currVal);
+                }
+                else {
+                    let seedBlob = new SeedBlob();
+                    seedBlob.addValue(currVal);
+                    this.dict.set(currKey, seedBlob);
+                }
+                idx += 1;
+            }
+        }
+    }
+    getRandomSeed() {
+        let keys = Array.from(this.dict.keys());
+        return keys[Math.floor(Math.random() * keys.length)];
+    }
+    hasSeed(seed) {
+        return this.dict.has(seed);
+    }
+    getValue(seed) {
+        if (!this.dict.has(seed)) {
+            throw new Error("No seed found!");
+        }
+        return this.dict.get(seed).getWeightedValue();
+    }
+    clearDictionary() {
+        this.dict = new Map();
+    }
+}
+exports.SeedDictionary = SeedDictionary;
+
+},{}],4:[function(require,module,exports){
+const WeightedMarkovGenerator = require('weighted-markov-generator').WeightedMarkovGenerator;
+
+// Page Setup
+
+function clearElements(element) {
+    while (element.firstChild) {
+        element.removeChild(element.firstChild);
+    }
+}
+
+function addElement(parent, etype, className="", idName="") {
+    let e = document.createElement(etype);
+    parent.appendChild(e);
+    e.className = className;
+    e.setAttribute("id", idName);
+    return e;
+}
+
+function setupInputRow() {
+    let inputRow = document.getElementById("input-row");
+    let inputCol = addElement(inputRow, "div", "col");
+    inputCol.style.padding = "0px";
+    let slRow = addElement(inputCol, "div", "row");
+    let ncRow = addElement(inputCol, "div", "row");
+    let swRow = addElement(inputCol, "div", "row");
+    let ewRow = addElement(inputCol, "div", "row");
+    slRow.style.margin = "5px 0px";
+    ncRow.style.margin = "5px 0px";
+    swRow.style.margin = "5px 0px";
+    ewRow.style.margin = "5px 0px";
+    let slInputDiv = addElement(slRow, "div", "col-sm-6");
+    let slInputText = addElement(slRow, "p", "font-italic text-muted");
+    slInputText.textContent = "markov chain length";
+    let ncInputDiv = addElement(ncRow, "div", "col-sm-6");
+    let ncInputText = addElement(ncRow, "p", "font-italic text-muted");
+    ncInputText.textContent = "output length";
+    let swInputDiv = addElement(swRow, "div", "col-sm-6");
+    let swInputText = addElement(swRow, "p", "font-italic text-muted");
+    swInputText.textContent = "starts with [optional]";
+    let ewInputDiv = addElement(ewRow, "div", "col-sm-6");
+    let ewInputText = addElement(ewRow, "p", "font-italic text-muted");
+    ewInputText.textContent = "ends with [optional]";
+    let slInput = addElement(slInputDiv, "input", "form-control", "sl-input");
+    let ncInput = addElement(ncInputDiv, "input", "form-control", "nc-input");
+    let swInput = addElement(swInputDiv, "input", "form-control", "sw-input");
+    let ewInput = addElement(ewInputDiv, "input", "form-control", "ew-input");
+    slInput.value = "5";
+    ncInput.value = "200";
+    ewInput.value = ".";
+}
+
+function setupOutbox() {
+    let outbox = document.getElementById("outbox");
+    outbox.style.borderStyle = "dashed";
+    outbox.style.background = "#eee";
+    let outText = addElement(outbox, "p", "", "output-text");
+    outText.style.padding = "10px";
+    outText.textContent = "output comes here";
+}
+
+function addOutput(text) {
+    let outbox = document.getElementById("outbox");
+    outbox.style.borderStyle = "solid";
+    clearElements(outbox);
+    let outText = addElement(outbox, "p", "", "output-text");
+    outText.style.padding = "10px";
+    outText.textContent = text;
+}
+
+setupInputRow();
+setupOutbox();
+
+// Generate Logic
+
+function readValues() {
+    let seedTextArea = document.getElementById("seed-text");
+    let slInput = document.getElementById("sl-input");
+    let ncInput = document.getElementById("nc-input");
+    let swInput = document.getElementById("sw-input");
+    let ewInput = document.getElementById("ew-input");
+    let st = seedTextArea.value;
+    let sl = parseInt(slInput.value);
+    let nc = parseInt(ncInput.value);
+    let sw = swInput.value;
+    let ew = ewInput.value;
+    return {
+        "seedText": st,
+        "seedLength": sl,
+        "numChar": nc,
+        "startsWith": sw,
+        "endsWith": ew
+    }
+}
+
+function outputValues() {
+    let params = readValues();
+    console.log("Creating a new markov generator");
+    let generator = new WeightedMarkovGenerator(params["seedLength"]);
+    params["seedText"].split(/\r?\n/).forEach(text => {
+        text = text.trim();
+        generator.seedText(text);
+    });
+    try {
+        let generatedText = generator.generateText(params["numChar"], params["startsWith"], params["endsWith"]);
+        addOutput(generatedText);
+    } catch (e) {
+        alert(e.message);
+    }
+}
+
+function setupMainButton() {
+    let mainButton = document.getElementById("main-button");
+    mainButton.onclick = () => {
+        outputValues();
+    }
+}
+
+setupMainButton();
+
+// Prepopulated examples
+
+const EXAMPLE_MAP = {
+    "Robin Hood": "/examples/robin_hood.txt",
+    "Trump Speech": "/examples/trump_speech.txt",
+    "Navy Seal Copypasta": "/examples/navy_seal_copypasta.txt",
+    "武松打虎": "/examples/wusong.txt",
+    "War and Peace": "/examples/war_and_peace.txt"
+}
+
+function buildSelect() {
+    let select = document.getElementById("select-existing");
+    for (const name in EXAMPLE_MAP) {
+        let option = addElement(select, "option");
+        option.setAttribute("value", name);
+        option.textContent = name
+    }
+    select.onchange = function () {
+        let name = select.value;
+        if (name in EXAMPLE_MAP) {
+            loadText(EXAMPLE_MAP[name]);
+        } else {
+            let seedTextArea = document.getElementById("seed-text");
+            seedTextArea.value = "";
+        }
+    }
+}
+
+function loadText(path) {
+    let seedTextArea = document.getElementById("seed-text");
+    if (!(location.hostname == "0.0.0.0")) {
+        path = `/markov${path}`
+    }
+    let request = new XMLHttpRequest();
+    request.onload = function () {
+        let result = this.response;
+        seedTextArea.value = result;
+    }
+    request.open('GET', path);
+    request.send();
+}
+
+buildSelect();
+
+},{"weighted-markov-generator":1}]},{},[4]);
