@@ -19,6 +19,12 @@ aws s3 sync "$SITE_DIR" "$BUCKET" \
     --exclude ".claude/*" \
     --exclude "backup/*" \
     --exclude "deploy.sh" \
+    --exclude "INFRA.local" \
     $EXTRA_ARGS
+
+if [[ -z "$EXTRA_ARGS" ]]; then
+    echo "Invalidating CloudFront cache..."
+    aws cloudfront create-invalidation --distribution-id E2JN7O78HDY7Q5 --paths "/*" --query "Invalidation.Id" --output text
+fi
 
 echo "Deploy complete."
