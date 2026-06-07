@@ -1,0 +1,28 @@
+body {
+  padding-top: 48px !important;
+}
+
+nav.topnav {
+  background: #1a1a2e;
+  padding: 0.75rem 1.5rem;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+nav.topnav a {
+  color: #ccc;
+  text-decoration: none;
+  margin-right: 1.5rem;
+}
+
+nav.topnav a:hover {
+  color: white;
+}
+
+nav.topnav .brand {
+  color: white;
+  font-weight: 600;
+}
