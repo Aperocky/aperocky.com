@@ -111,58 +111,73 @@ And other people has been able to add packages on top of this ecosystem, or use 
 
 Many harness today become large bloated software that eats up RAM, creates leaks, almost impossible to debug due to size alone - this is not the case for a harness built with unix philosophy, each component is constrained, small, and eventually arrive at a point where adding feature feels *wrong*. A feature should be a new package, and user can decide whether they want it. That new package would also be doing only that feature, and work with everything else on an optional basis.
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 300" width="100%" font-family="Arial,sans-serif">
-  <text x="390" y="22" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">Agentic Harness as Unix Ecosystem</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 360" width="100%" font-family="Arial,sans-serif">
+  <text x="390" y="22" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">Agentic Harness: Pluggable Ecosystem vs Monolithic Bloat</text>
 
-  <!-- Central kernel -->
-  <ellipse cx="390" cy="155" rx="60" ry="30" fill="#FFF8E1" stroke="#F57F17" stroke-width="2"/>
-  <text x="390" y="152" text-anchor="middle" font-size="10" font-weight="600" fill="#F57F17">Agent</text>
-  <text x="390" y="165" text-anchor="middle" font-size="9" fill="#F57F17">Runtime</text>
+  <!-- Left: Pluggable ecosystem -->
+  <rect x="20" y="40" width="360" height="290" rx="10" fill="#E8F5E9" stroke="#2E7D32" stroke-width="2"/>
+  <text x="200" y="62" text-anchor="middle" font-size="11" font-weight="bold" fill="#2E7D32">Pluggable Ecosystem</text>
 
-  <!-- Building blocks around it -->
-  <rect x="50" y="50" width="110" height="45" rx="6" fill="#E3F2FD" stroke="#1976D2" stroke-width="1.5"/>
-  <text x="105" y="70" text-anchor="middle" font-size="10" font-weight="600" fill="#1976D2">tmux</text>
-  <text x="105" y="84" text-anchor="middle" font-size="8" fill="#555">survivability</text>
+  <!-- Pieces that plug together -->
+  <rect x="40" y="75" width="95" height="38" rx="5" fill="#fff" stroke="#66BB6A" stroke-width="1.5"/>
+  <text x="87" y="92" text-anchor="middle" font-size="9" font-weight="600" fill="#2E7D32">tmux</text>
+  <text x="87" y="104" text-anchor="middle" font-size="7" fill="#555">survivability</text>
 
-  <rect x="190" y="40" width="110" height="45" rx="6" fill="#E3F2FD" stroke="#1976D2" stroke-width="1.5"/>
-  <text x="245" y="60" text-anchor="middle" font-size="10" font-weight="600" fill="#1976D2">filesystem</text>
-  <text x="245" y="74" text-anchor="middle" font-size="8" fill="#555">isolation</text>
+  <rect x="145" y="75" width="95" height="38" rx="5" fill="#fff" stroke="#66BB6A" stroke-width="1.5"/>
+  <text x="192" y="92" text-anchor="middle" font-size="9" font-weight="600" fill="#2E7D32">msg router</text>
+  <text x="192" y="104" text-anchor="middle" font-size="7" fill="#555">delivery</text>
 
-  <rect x="480" y="40" width="110" height="45" rx="6" fill="#E3F2FD" stroke="#1976D2" stroke-width="1.5"/>
-  <text x="535" y="60" text-anchor="middle" font-size="10" font-weight="600" fill="#1976D2">msg router</text>
-  <text x="535" y="74" text-anchor="middle" font-size="8" fill="#555">messaging</text>
+  <rect x="250" y="75" width="95" height="38" rx="5" fill="#fff" stroke="#66BB6A" stroke-width="1.5"/>
+  <text x="297" y="92" text-anchor="middle" font-size="9" font-weight="600" fill="#2E7D32">RAG store</text>
+  <text x="297" y="104" text-anchor="middle" font-size="7" fill="#555">memory</text>
 
-  <rect x="620" y="50" width="110" height="45" rx="6" fill="#E3F2FD" stroke="#1976D2" stroke-width="1.5"/>
-  <text x="675" y="70" text-anchor="middle" font-size="10" font-weight="600" fill="#1976D2">RAG store</text>
-  <text x="675" y="84" text-anchor="middle" font-size="8" fill="#555">memory</text>
+  <rect x="40" y="123" width="95" height="38" rx="5" fill="#fff" stroke="#66BB6A" stroke-width="1.5"/>
+  <text x="87" y="140" text-anchor="middle" font-size="9" font-weight="600" fill="#2E7D32">task CLI</text>
+  <text x="87" y="152" text-anchor="middle" font-size="7" fill="#555">tracking</text>
 
-  <rect x="50" y="200" width="110" height="45" rx="6" fill="#E3F2FD" stroke="#1976D2" stroke-width="1.5"/>
-  <text x="105" y="220" text-anchor="middle" font-size="10" font-weight="600" fill="#1976D2">task CLI</text>
-  <text x="105" y="234" text-anchor="middle" font-size="8" fill="#555">task tracking</text>
+  <rect x="145" y="123" width="95" height="38" rx="5" fill="#fff" stroke="#66BB6A" stroke-width="1.5"/>
+  <text x="192" y="140" text-anchor="middle" font-size="9" font-weight="600" fill="#2E7D32">org manager</text>
+  <text x="192" y="152" text-anchor="middle" font-size="7" fill="#555">hierarchy</text>
 
-  <rect x="190" y="220" width="110" height="45" rx="6" fill="#E3F2FD" stroke="#1976D2" stroke-width="1.5"/>
-  <text x="245" y="240" text-anchor="middle" font-size="10" font-weight="600" fill="#1976D2">org manager</text>
-  <text x="245" y="254" text-anchor="middle" font-size="8" fill="#555">hierarchy</text>
+  <rect x="250" y="123" width="95" height="38" rx="5" fill="#fff" stroke="#66BB6A" stroke-width="1.5"/>
+  <text x="297" y="140" text-anchor="middle" font-size="9" font-weight="600" fill="#2E7D32">claude-code</text>
+  <text x="297" y="152" text-anchor="middle" font-size="7" fill="#555">coding</text>
 
-  <rect x="480" y="220" width="110" height="45" rx="6" fill="#E3F2FD" stroke="#1976D2" stroke-width="1.5"/>
-  <text x="535" y="240" text-anchor="middle" font-size="10" font-weight="600" fill="#1976D2">claude-code</text>
-  <text x="535" y="254" text-anchor="middle" font-size="8" fill="#555">coding harness</text>
+  <!-- Plug icon hint -->
+  <rect x="250" y="171" width="95" height="38" rx="5" fill="#fff" stroke="#2E7D32" stroke-width="1.5" stroke-dasharray="4"/>
+  <text x="297" y="188" text-anchor="middle" font-size="9" font-weight="600" fill="#2E7D32">your pkg</text>
+  <text x="297" y="200" text-anchor="middle" font-size="7" fill="#555">plug in</text>
 
-  <rect x="620" y="200" width="110" height="45" rx="6" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5" stroke-dasharray="4"/>
-  <text x="675" y="220" text-anchor="middle" font-size="10" font-weight="600" fill="#2E7D32">your-pkg</text>
-  <text x="675" y="234" text-anchor="middle" font-size="8" fill="#555">extensible</text>
+  <!-- Properties -->
+  <line x1="40" y1="225" x2="355" y2="225" stroke="#C8E6C9" stroke-width="1"/>
+  <text x="200" y="244" text-anchor="middle" font-size="9" fill="#333">✓ Each piece replaceable independently</text>
+  <text x="200" y="258" text-anchor="middle" font-size="9" fill="#333">✓ Small, debuggable, no RAM bloat</text>
+  <text x="200" y="272" text-anchor="middle" font-size="9" fill="#333">✓ Add features as new packages</text>
+  <text x="200" y="286" text-anchor="middle" font-size="9" fill="#333">✓ Users customize by swapping pieces</text>
+  <text x="200" y="306" text-anchor="middle" font-size="9" font-weight="600" fill="#2E7D32">Adding a feature feels wrong → make a new pkg</text>
 
-  <!-- Connecting lines -->
-  <line x1="160" y1="72" x2="330" y2="145" stroke="#999" stroke-width="1" stroke-dasharray="3"/>
-  <line x1="245" y1="85" x2="345" y2="135" stroke="#999" stroke-width="1" stroke-dasharray="3"/>
-  <line x1="480" y1="62" x2="450" y2="140" stroke="#999" stroke-width="1" stroke-dasharray="3"/>
-  <line x1="620" y1="72" x2="450" y2="145" stroke="#999" stroke-width="1" stroke-dasharray="3"/>
-  <line x1="160" y1="222" x2="330" y2="165" stroke="#999" stroke-width="1" stroke-dasharray="3"/>
-  <line x1="245" y1="220" x2="345" y2="170" stroke="#999" stroke-width="1" stroke-dasharray="3"/>
-  <line x1="480" y1="242" x2="450" y2="165" stroke="#999" stroke-width="1" stroke-dasharray="3"/>
-  <line x1="620" y1="222" x2="450" y2="160" stroke="#999" stroke-width="1" stroke-dasharray="3"/>
+  <!-- Right: Monolithic bloat -->
+  <rect x="410" y="40" width="350" height="290" rx="10" fill="#FFEBEE" stroke="#C62828" stroke-width="2"/>
+  <text x="585" y="62" text-anchor="middle" font-size="11" font-weight="bold" fill="#C62828">Monolithic Harness</text>
 
-  <text x="390" y="292" text-anchor="middle" font-size="10" fill="#333" font-weight="600">Each block does one thing • Compose freely • Add/remove without breaking others</text>
+  <!-- Single giant blob -->
+  <rect x="440" y="78" width="290" height="130" rx="8" fill="#FFCDD2" stroke="#E57373" stroke-width="1.5"/>
+  <text x="585" y="110" text-anchor="middle" font-size="11" font-weight="600" fill="#C62828">One Giant Package</text>
+  <text x="585" y="130" text-anchor="middle" font-size="9" fill="#333">messaging + memory + tasks + coding +</text>
+  <text x="585" y="144" text-anchor="middle" font-size="9" fill="#333">org + UI + config + plugins + telemetry</text>
+  <text x="585" y="162" text-anchor="middle" font-size="9" fill="#333">+ scheduling + auth + state sync + ...</text>
+  <text x="585" y="185" text-anchor="middle" font-size="9" font-weight="600" fill="#C62828">All coupled. All in one process.</text>
+
+  <!-- Properties -->
+  <line x1="440" y1="225" x2="730" y2="225" stroke="#FFCDD2" stroke-width="1"/>
+  <text x="585" y="244" text-anchor="middle" font-size="9" fill="#333">✗ RAM leaks, impossible to debug</text>
+  <text x="585" y="258" text-anchor="middle" font-size="9" fill="#333">✗ One bug crashes everything</text>
+  <text x="585" y="272" text-anchor="middle" font-size="9" fill="#333">✗ Can't swap components</text>
+  <text x="585" y="286" text-anchor="middle" font-size="9" fill="#333">✗ Spectacular rise → spectacular fall</text>
+  <text x="585" y="306" text-anchor="middle" font-size="9" font-weight="600" fill="#C62828">Large footprint and maintenance nightmare</text>
+
+  <!-- Bottom summary -->
+  <text x="390" y="350" text-anchor="middle" font-size="10" fill="#333" font-weight="600">Build a product from pieces, not a piece that tries to be the product</text>
 </svg>
 
 ## Unix Philosophy for Agentic Software Development
@@ -212,3 +227,5 @@ This concept is not new or only a case for agent or LLM, as Unix Philosophy is a
 
   <text x="390" y="260" text-anchor="middle" font-size="10" fill="#333" font-weight="600">Unix Philosophy is not just cleaner code — it's a force multiplier for agent-driven development</text>
 </svg>
+
+See also: [Agentic Software Development Methodology](/blog/post.html?slug=agentic-development-philosophy) for the operational process that applies these principles day-to-day.

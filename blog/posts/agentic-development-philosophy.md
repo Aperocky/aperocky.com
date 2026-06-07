@@ -8,6 +8,8 @@ Over the past few months, I've experimented with large scale deployment of agent
 
 Agent collaboration frameworks are now a dime a dozen, and are potentially going to be more akin to .zshrc in the future, however, a different approach philosophically makes a large difference in actual delivery speed and quality.
 
+See also: [Unix Philosophy and Agentic Development](/blog/post.html?slug=unix-philosophy-agentic) for in depth philosophy about structure of harness and software (this doc is more about methodology and how).
+
 ## Bimodal Development Pattern
 
 I have found 2 different ways of software development in this time:
