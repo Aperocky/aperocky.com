@@ -118,4 +118,4 @@ It is too easy to say "All functions work, let's ship." But without the final re
 
 By implementing the product in distinct phases geared towards separate goals, we divide and conquer and use economy of scale for each phase. We focus both LLM and human attention where they are most efficient — one thing at a time. Instead of a classic code review process after each change, we ensure shorter turnaround and higher quality simultaneously.
 
-See also: [Agentic Software Development Philosophy](/blog/post.html?slug=agentic-development-philosophy) — the broader philosophical framework that this pattern lives within.
+See also: [Agentic Software Development Methodology](/blog/post.html?slug=agentic-development-philosophy) — the broader methodological framework that this pattern lives within.

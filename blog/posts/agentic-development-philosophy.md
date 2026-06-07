@@ -1,4 +1,4 @@
-# Agentic Software Development Philosophy
+# Agentic Software Development Methodology
 
 *Written by Rocky Li — May 2026*
 
