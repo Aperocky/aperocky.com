@@ -6,8 +6,6 @@
 
 Unix philosophy has been there for half a century, yet it is more applicable than ever today in the age of LLMs to increase correctness and robustness and long term maintenance cost of software.
 
-This article is about the philosophy behind agentic harness design and why I think it contributes to the success as measured in output and long term maintenance cost.
-
 ## What is Unix Philosophy
 
 The unix philosophy had produced one of the most stable software configurations that have lasted for 4 decades, that are still in use today by humans and agents alike. Most developer are familiar with `ls`, `cat`, `grep`, `echo`, `rm`, and other modular software such as `vi`, `curl`, `top`, and then there are daemons such as `sshd`, `crond`, etc. Together, these are the central pieces of a software that works together as an ecosystem. A stable ecosystem that has worked well, it supported a stable environment where other software ran on for decades.
@@ -99,7 +97,7 @@ Agents are limited by contexts, and this mean, on complex, interlinked systems, 
 
 Now getting into the implementation part - for agentic harness specifically, I believe this becomes important because there are too many examples to the contrary that have had spectacular rise and falls. I believe a stable agentic harness that have both extensibility into the future, customizability for everyone to work in their own way, and stays out of the way such that the user can focus on the work that harness is doing instead of the harness itself.
 
-The harness should be made of building blocks that forms an ecosystem of which each component of the harness does exactly one thing well. And for this purpose, we should use pre-existing software to the maximal liberty. For instance, my harness consisted of:
+The harness should be made of building blocks that forms an ecosystem of which each component of the harness does exactly one thing well. And for this purpose, we should use pre-existing software to the maximal liberty. For instance, my custom harness (hopefully open source soon) consisted of:
 
 * filesystem: On the concept level, each agent gets its own path in the filesystem so it can store context independently.
 * tmux: this allow for survivability and addressability and wraps agents runtime.
