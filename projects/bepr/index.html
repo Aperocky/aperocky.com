@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Blog — Rocky Li</title>
+  <link href="/assets/bootstrap.min.css" rel="stylesheet">
+  <link href="/assets/site-nav.css" rel="stylesheet">
+  <link rel="shortcut icon" href="/image/r.ico" type="image/x-icon">
+  <script src="/assets/site-nav.js" defer></script>
+  <style>
+    body { background-color: #f5f5f5; }
+    .post-body {
+      background: white;
+      border-radius: 6px;
+      padding: 2.5rem 3rem;
+      margin: 2rem 0 3rem;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+    }
+    .post-body h1 { font-size: 2rem; margin-bottom: 0.25rem; }
+    .post-body h2 { font-size: 1.5rem; margin-top: 2rem; }
+    .post-body h3 { font-size: 1.2rem; margin-top: 1.5rem; }
+    .post-body pre {
+      background: #f0f0f0;
+      border-radius: 4px;
+      padding: 1rem;
+      overflow-x: auto;
+    }
+    .post-body code { font-size: 0.9em; }
+    .post-body p { line-height: 1.75; color: #333; }
+    .post-body svg { max-width: 100%; }
+    .post-meta { color: #888; font-size: 0.9rem; margin-bottom: 1.5rem; }
+    #error { color: #a00; padding: 2rem 0; }
+    #loading { color: #888; padding: 2rem 0; }
+    .back-link { color: #555; font-size: 0.9rem; display: inline-block; margin-bottom: 1rem; }
+    .back-link:hover { color: #005; }
+  </style>
+</head>
+<body>
+  <div class="container" style="max-width:1024px;">
+    <p id="loading">Loading...</p>
+    <p id="error" style="display:none"></p>
+    <div id="post-wrap" style="display:none">
+      <a class="back-link" href="/projects/">&larr; All projects</a>
+      <div class="post-body" id="post-body"></div>
+    </div>
+  </div>
+
+  <script src="/assets/marked.min.js"></script>
+  <script>
+    fetch(`/projects/bepr/bepr.md`)
+      .then(r => { if (!r.ok) throw new Error('Not found'); return r.text(); })
+      .then(md => {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('post-wrap').style.display = 'block';
+  
+        // Extract title from first H1 for the page <title>
+        const titleMatch = md.match(/^#\s+(.+)/m);
+        if (titleMatch) document.title = titleMatch[1] + ' — Rocky Li';
+  
+        document.getElementById('post-body').innerHTML = marked.parse(md);
+      })
+      .catch(err => showError('Post not found.'));
+
+    function showError(msg) {
+      document.getElementById('loading').style.display = 'none';
+      const el = document.getElementById('error');
+      el.textContent = msg;
+      el.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
