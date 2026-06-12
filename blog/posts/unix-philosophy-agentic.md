@@ -93,9 +93,59 @@ Agents are limited by contexts, and this mean, on complex, interlinked systems, 
   <text x="390" y="245" text-anchor="middle" font-size="10" fill="#333" font-weight="600">Modularity converts context limits from a blocker into a non-issue</text>
 </svg>
 
+## Unix Philosophy for Agentic Software Development
+
+There are much talk about using the harness and LLM to achieve more efficient, there aren't much talk about making the development themselves more suitable for LLMs and the agents. To me, this is equally important, we should ensure that the outcome is tailored for agentic workflow, not just the workflow itself. 
+
+This means, the ideal software project for agent would be:
+
+* Small and independent building blocks that each does one thing well.
+* If it cannot be small and independent blocks and must ship as a monolith, a group of components that are almost independent, glued together by a single component that handles routing.
+
+The system designed in this way would ensure that agents are able to focus on the entire context that matter to a problem without breaking other things, and this divide and conquer strategy will return dividend in terms of correctness, and in turn much less churn. The biggest challenge to developing with agents in the present time is difficulty with verification and hallucination. An increase in correctness from 80% to 90% would increase the speed by 2 fold, simply by the nature of where the time consuming part of the work remains.
+
+This concept is not new or only a case for agent or LLM, as Unix Philosophy is around for 50 years. However, this both increases in importance today due to the constraint of LLM, and also with my personal observation that most software, both open source and enterprise, are not following this recommendation, and there are a lot of improvement to be made here, for both new and existing projects.
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 280" width="100%" font-family="Arial,sans-serif">
+  <text x="390" y="22" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">Correctness Dividend from Modular Architecture</text>
+
+  <!-- Left: spaghetti -->
+  <rect x="30" y="45" width="230" height="180" rx="10" fill="#FFEBEE" stroke="#C62828" stroke-width="2"/>
+  <text x="145" y="68" text-anchor="middle" font-size="11" font-weight="bold" fill="#C62828">Spaghetti Monolith</text>
+  <text x="145" y="100" text-anchor="middle" font-size="10" fill="#333">Agent correctness: ~80%</text>
+  <text x="145" y="118" text-anchor="middle" font-size="10" fill="#333">Each fix risks breaking others</text>
+  <text x="145" y="136" text-anchor="middle" font-size="10" fill="#333">Verification: very hard</text>
+  <line x1="60" y1="155" x2="230" y2="155" stroke="#FFCDD2" stroke-width="1"/>
+  <text x="145" y="175" text-anchor="middle" font-size="10" font-weight="600" fill="#C62828">Result: constant churn</text>
+  <text x="145" y="195" text-anchor="middle" font-size="10" fill="#C62828">Time spent on rework > building</text>
+
+  <!-- Right: modular -->
+  <rect x="520" y="45" width="230" height="180" rx="10" fill="#E8F5E9" stroke="#2E7D32" stroke-width="2"/>
+  <text x="635" y="68" text-anchor="middle" font-size="11" font-weight="bold" fill="#2E7D32">Modular Components</text>
+  <text x="635" y="100" text-anchor="middle" font-size="10" fill="#333">Agent correctness: ~90%+</text>
+  <text x="635" y="118" text-anchor="middle" font-size="10" fill="#333">Changes isolated to one module</text>
+  <text x="635" y="136" text-anchor="middle" font-size="10" fill="#333">Verification: straightforward</text>
+  <line x1="550" y1="155" x2="720" y2="155" stroke="#C8E6C9" stroke-width="1"/>
+  <text x="635" y="175" text-anchor="middle" font-size="10" font-weight="600" fill="#2E7D32">Result: 2x speed</text>
+  <text x="635" y="195" text-anchor="middle" font-size="10" fill="#2E7D32">80→90% correctness = halved rework</text>
+
+  <!-- Arrow -->
+  <line x1="280" y1="135" x2="500" y2="135" stroke="#555" stroke-width="2" marker-end="url(#unixArr)"/>
+  <text x="390" y="125" text-anchor="middle" font-size="10" fill="#555">refactor to modular</text>
+  <defs>
+    <marker id="unixArr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#555"/>
+    </marker>
+  </defs>
+
+  <text x="390" y="260" text-anchor="middle" font-size="10" fill="#333" font-weight="600">Unix Philosophy is not just cleaner code — it's a force multiplier for agent-driven development</text>
+</svg>
+
+See also: [Agentic Software Development Methodology](/blog/post.html?slug=agentic-development-philosophy) for the operational process that applies these principles day-to-day.
+
 ## Unix Philosophy for Agentic Harness
 
-Now getting into the implementation part - for agentic harness specifically, I believe this becomes important because there are too many examples to the contrary that have had spectacular rise and falls. I believe a stable agentic harness that have both extensibility into the future, customizability for everyone to work in their own way, and stays out of the way such that the user can focus on the work that harness is doing instead of the harness itself.
+Now getting into the harness part - for agentic harness specifically, I believe this becomes important because there are too many examples to the contrary that have had spectacular rise and falls. I believe a stable agentic harness that have both extensibility into the future, customizability for everyone to work in their own way, and stays out of the way such that the user can focus on the work that harness is doing instead of the harness itself.
 
 The harness should be made of building blocks that forms an ecosystem of which each component of the harness does exactly one thing well. And for this purpose, we should use pre-existing software to the maximal liberty. For instance, my custom harness (hopefully open source soon) consisted of:
 
@@ -179,53 +229,3 @@ Many harness today become large bloated software that eats up RAM, creates leaks
   <!-- Bottom summary -->
   <text x="390" y="350" text-anchor="middle" font-size="10" fill="#333" font-weight="600">Build a product from pieces, not a piece that tries to be the product</text>
 </svg>
-
-## Unix Philosophy for Agentic Software Development
-
-The same philosophy then applies more broadly beyond harness. While there are talks of how to build harness and skills and prompts to speed up development and make work more efficient. There aren't much talk about making the development themselves more suitable for LLMs and the agents. To me, this is equally important. If the project in questions is one of the many spaghettified monoliths, agent development with the same setup will run into problems that can have multitude or even orders of magnitude poorer result due to context limitations. At a certain point, a project may be unmaintainable by either agents or humans, save for herculian effort on both.
-
-This means, the ideal software project for agent would be:
-
-* Small and independent building blocks that each does one thing well.
-* If it cannot be small and independent blocks and must ship as a monolith, a group of components that are almost independent, glued together by a single component that handles routing.
-
-The system designed in this way would ensure that agents are able to focus on the entire context that matter to a problem without breaking other things, and this divide and conquer strategy will return dividend in terms of correctness, and in turn much less churn. The biggest challenge to developing with agents in the present time is difficulty with verification and hallucination. An increase in correctness from 80% to 90% would increase the speed by 2 fold, simply by the nature of where the time consuming part of the work remains.
-
-This concept is not new or only a case for agent or LLM, as Unix Philosophy is around for 50 years. However, this both increases in importance today due to the constraint of LLM, and also with my personal observation that most software, both open source and enterprise, are not following this recommendation, and there are a lot of improvement to be made here, for both new and existing projects.
-
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 280" width="100%" font-family="Arial,sans-serif">
-  <text x="390" y="22" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">Correctness Dividend from Modular Architecture</text>
-
-  <!-- Left: spaghetti -->
-  <rect x="30" y="45" width="230" height="180" rx="10" fill="#FFEBEE" stroke="#C62828" stroke-width="2"/>
-  <text x="145" y="68" text-anchor="middle" font-size="11" font-weight="bold" fill="#C62828">Spaghetti Monolith</text>
-  <text x="145" y="100" text-anchor="middle" font-size="10" fill="#333">Agent correctness: ~80%</text>
-  <text x="145" y="118" text-anchor="middle" font-size="10" fill="#333">Each fix risks breaking others</text>
-  <text x="145" y="136" text-anchor="middle" font-size="10" fill="#333">Verification: very hard</text>
-  <line x1="60" y1="155" x2="230" y2="155" stroke="#FFCDD2" stroke-width="1"/>
-  <text x="145" y="175" text-anchor="middle" font-size="10" font-weight="600" fill="#C62828">Result: constant churn</text>
-  <text x="145" y="195" text-anchor="middle" font-size="10" fill="#C62828">Time spent on rework > building</text>
-
-  <!-- Right: modular -->
-  <rect x="520" y="45" width="230" height="180" rx="10" fill="#E8F5E9" stroke="#2E7D32" stroke-width="2"/>
-  <text x="635" y="68" text-anchor="middle" font-size="11" font-weight="bold" fill="#2E7D32">Modular Components</text>
-  <text x="635" y="100" text-anchor="middle" font-size="10" fill="#333">Agent correctness: ~90%+</text>
-  <text x="635" y="118" text-anchor="middle" font-size="10" fill="#333">Changes isolated to one module</text>
-  <text x="635" y="136" text-anchor="middle" font-size="10" fill="#333">Verification: straightforward</text>
-  <line x1="550" y1="155" x2="720" y2="155" stroke="#C8E6C9" stroke-width="1"/>
-  <text x="635" y="175" text-anchor="middle" font-size="10" font-weight="600" fill="#2E7D32">Result: 2x speed</text>
-  <text x="635" y="195" text-anchor="middle" font-size="10" fill="#2E7D32">80→90% correctness = halved rework</text>
-
-  <!-- Arrow -->
-  <line x1="280" y1="135" x2="500" y2="135" stroke="#555" stroke-width="2" marker-end="url(#unixArr)"/>
-  <text x="390" y="125" text-anchor="middle" font-size="10" fill="#555">refactor to modular</text>
-  <defs>
-    <marker id="unixArr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-      <polygon points="0 0, 10 3.5, 0 7" fill="#555"/>
-    </marker>
-  </defs>
-
-  <text x="390" y="260" text-anchor="middle" font-size="10" fill="#333" font-weight="600">Unix Philosophy is not just cleaner code — it's a force multiplier for agent-driven development</text>
-</svg>
-
-See also: [Agentic Software Development Methodology](/blog/post.html?slug=agentic-development-philosophy) for the operational process that applies these principles day-to-day.
