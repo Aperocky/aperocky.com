@@ -28,12 +28,23 @@
     }
     .post-body code { font-size: 0.9em; }
     .post-body p { line-height: 1.75; color: #333; }
+    .post-body blockquote {
+      background: #f8f9fa;
+      border-left: 4px solid #fc4c02;
+      border-radius: 0 4px 4px 0;
+      margin: 1rem 0 2rem;
+      padding: 1rem 1.25rem;
+    }
+    .post-body blockquote p:last-child { margin-bottom: 0; }
     .post-body svg { max-width: 100%; }
     .post-meta { color: #888; font-size: 0.9rem; margin-bottom: 1.5rem; }
     #error { color: #a00; padding: 2rem 0; }
     #loading { color: #888; padding: 2rem 0; }
     .back-link { color: #555; font-size: 0.9rem; display: inline-block; margin-bottom: 1rem; }
     .back-link:hover { color: #005; }
+    @media (max-width: 575px) {
+      .post-body { padding: 1.5rem 1.25rem; }
+    }
   </style>
 </head>
 <body>

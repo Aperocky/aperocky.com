@@ -1,38 +1,38 @@
-## Apple Watch's Disasterous Upgrade
+# Apple Watch's Disastrous Upgrade
 
-Ever since I was force upgraded to WatchOS 27 to connect to my new iPhone, recording an exercise gradually turned into checking what could be wrong this time, and barely once had it not made a significant deviation on my exercise data. Below is exerpts from my recent [strava](https://www.strava.com/athletes/123888854) logs in the past week:
+Ever since I was force upgraded to WatchOS 27 to connect to my new iPhone, recording an exercise gradually turned into checking what could be wrong this time, and barely once had it not made a significant deviation on my exercise data. Below are excerpts from my recent [Strava](https://www.strava.com/athletes/123888854) logs in the past week:
 
----
+## From My Strava Logs
 
-1. Z2 BUY GARMIN
+### 1. Z2 BUY GARMIN
 
-How does an $800 sports watch in Ultra fail to find a stable zone 2 pulse FOR 50 STRAIGHT MINUTES?
+> How does an $800 sports watch in Ultra fail to find a stable zone 2 pulse FOR 50 STRAIGHT MINUTES?
+>
+> Apple why don’t you pack up your entire wearable business and SELL IT TO GARMIN?
+>
+> So I don’t look down and find no pulse, or worse, my cadence.
+>
+> Someone screenshot this and send it to John Ternus
 
-Apple why don’t you pack up your entire wearable business and SELL IT TO GARMIN?
+### 2. Z2 10K
 
-So I don’t look down and find no pulse, or worse, my cadence.
+> In addition to heart rate shenanigans. Apple Watch swallowed 100m from each of the first 1K of my previous 2 runs
+>
+> Apple Watch Ultra is not a serious sport watch
 
-Someone screenshot this and send it to John Ternus
+### 3. Z2 10K
 
-2. Z2 10K
+> When Apple Watch swallows distance at the beginning, the GPS track is somehow correct. It just amortize the missing distance across the first km or so. As a software engineer, I am astounded and amused at how this get to happen.
+>
+> Running in loops with Strava sections expose this elaborate bug mechanism that just seems deliberate.
 
-In addition to heart rate shenanigans. Apple Watch swallowed 100m from each of the first 1K of my previous 2 runs
+### 4. Z2 10mi
 
-Apple Watch Ultra is not a serious sport watch
-
-3. Z2 10K
-
-When Apple Watch swallows distance at the beginning, the GPS track is somehow correct. It just amortize the missing distance across the first km or so. As a software engineer, I am astounded and amused at how this get to happen.
-
-Running in loops with Strava sections expose this elaborate bug mechanism that just seems deliberate.
-
-4. Z2 10mi
-
-Updated to WatchOS27.2 dev build, apparently that fixed the distance not following GPS bug.
-
-But heart rate is still trash. Random 180bpm in the middle of Z2 nowhere? To think about it, I have not had a single activity after the forced upgrade to WatchOS 27 that the watch just did its job accurately.
-
-Is Apple using its in house LLM model to write its software now?
+> Updated to WatchOS27.2 dev build, apparently that fixed the distance not following GPS bug.
+>
+> But heart rate is still trash. Random 180bpm in the middle of Z2 nowhere? To think about it, I have not had a single activity after the forced upgrade to WatchOS 27 that the watch just did its job accurately.
+>
+> Is Apple using its in house LLM model to write its software now?
 
 ---
 
